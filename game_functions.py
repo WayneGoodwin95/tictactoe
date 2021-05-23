@@ -22,11 +22,9 @@ def update_board(settings, board, row, col, image_x, image_o):
     if settings.player == 1:
         board[row][col]['player'] = 1
         board[row][col]['tile_image'] = image_x
-        settings.player = 2
     elif settings.player == 2:
         board[row][col]['player'] = 2
         board[row][col]['tile_image'] = image_o
-        settings.player = 1
     board[row][col]['tile_active'] = False
 
 
@@ -36,26 +34,23 @@ def check_button_pressed(screen, settings, board, image_x, image_o, play_button)
         if event.type == pg.QUIT:
             sys.exit()
         elif event.type == pg.MOUSEBUTTONDOWN:
+            can_play = False
             mouse_pos = pg.mouse.get_pos()
             if settings.game_active:
-                check_can_play(screen, settings, board, mouse_pos, image_x, image_o)
-                return True
+                can_play = check_can_play(screen, settings, board, mouse_pos, image_x, image_o)
             elif not settings.game_active:
                 check_play_button(screen, settings, board, mouse_pos, play_button)
-                return False
+            return can_play
 
 
 def check_can_play(screen, settings, board, mouse_pos, image_x, image_o):
+    can_play = False
     for row in range(settings.rows):
         for col in range(settings.cols):
-            if board[row][col]['tile_rect'].collidepoint(mouse_pos) and board[row][col]['tile_active'] == True:
+            if board[row][col]['tile_rect'].collidepoint(mouse_pos) and board[row][col]['tile_active']:
                 update_board(settings, board, row, col, image_x, image_o)
-                print(settings.turn_counter)
-                settings.turn_counter += 1
-                if settings.player == 1:
-                    settings.player = 2
-                elif settings.player == 2:
-                    settings.player = 1
+                can_play = True
+    return can_play
 
 
 def check_play_button(screen, settings, board, mouse_pos, play_button):
@@ -65,14 +60,14 @@ def check_play_button(screen, settings, board, mouse_pos, play_button):
 
 
 def check_game_over(settings, board, game_over_screen):
-    if settings.turn_counter > 9 and settings.game_active:
+    if settings.turn_counter >= 9 and settings.game_active:
         # end game after al tiles are clicked
         settings.game_active = False
         settings.game_over_msg = 'Draw'
 
 
 def check_win_conditions(settings, board):
-    if settings.turn_counter > 4:
+    if settings.turn_counter >= 4:
         check_horizontal(settings, board)
         check_vertical(settings, board)
         check_botleft_topright(settings, board)
@@ -228,6 +223,8 @@ def change_player(settings):
         settings.player = 2
     elif settings.player == 2:
         settings.player = 1
+    settings.turn_counter += 1
+    print('Turn ' + str(settings.turn_counter) + ': Player ' + str(settings.player))
 
 
 def update_screen(screen, settings, board, play_button, game_over_screen):

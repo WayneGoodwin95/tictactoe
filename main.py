@@ -43,7 +43,8 @@ def run_game():
             # Check game over
             gf.check_game_over(settings, board, game_over_screen)
             # Make the most recent screen visible
-            gf.change_player(settings)
+            if settings.turn_counter < 9 and settings.game_active:
+                gf.change_player(settings)
 
         gf.update_screen(screen, settings, board, play_button, game_over_screen)
 
