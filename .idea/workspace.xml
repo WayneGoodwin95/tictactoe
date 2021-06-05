@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e44de4ea-27a9-4cf6-912d-5862c2bd5cfe" name="Default Changelist" comment="">
+    <list default="true" id="e44de4ea-27a9-4cf6-912d-5862c2bd5cfe" name="Default Changelist" comment="fixed bug to prevent player changing turn when clicking on a tile which is not active. more rrors appeared and i had to fix the turn counter and changing player as it changed multiple times in different places inside of game functions">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/tictactoe2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tictactoe2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +21,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Wayne Hamilton Goodwin &lt;waynegoodwin95@outlook.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1lBh5RpPwOvB8TM5EE9Ttjw3YJW" />
@@ -32,6 +38,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -72,28 +79,84 @@
       <option name="presentableId" value="Default" />
       <updated>1607076207659</updated>
     </task>
+    <task id="LOCAL-00001" summary="fixed bug to prevent player changing turn when clicking on a tile which is not active. more rrors appeared and i had to fix the turn counter and changing player as it changed multiple times in different places inside of game functions">
+      <created>1621735886798</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1621735886798</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/TicTacToe" />
+    </ignored-roots>
+    <MESSAGE value="fixed bug to prevent player changing turn when clicking on a tile which is not active. more rrors appeared and i had to fix the turn counter and changing player as it changed multiple times in different places inside of game functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bug to prevent player changing turn when clicking on a tile which is not active. more rrors appeared and i had to fix the turn counter and changing player as it changed multiple times in different places inside of game functions" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1516" height="314" key="GridCell.Tab.0.bottom" timestamp="1621735666525">
+    <state x="2213" y="189" key="#Notifications" timestamp="1621735968655">
       <screen x="1440" y="25" width="1920" height="1055" />
+    </state>
+    <state x="2213" y="189" key="#Notifications/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735968655" />
+    <state x="408" y="169" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1622855259781">
+      <screen x="0" y="25" width="1440" height="807" />
+    </state>
+    <state x="408" y="169" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/1440.25.1920.1055/0.25.1440.807@0.25.1440.807" timestamp="1622855259781" />
+    <state x="0" y="35" key="CommitChangelistDialog2" timestamp="1622856939141">
+      <screen x="0" y="25" width="1440" height="806" />
+    </state>
+    <state x="0" y="35" key="CommitChangelistDialog2/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622856939141" />
+    <state x="2225" y="127" key="CommitChangelistDialog2/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735886606" />
+    <state width="720" height="314" key="GridCell.Tab.0.bottom" timestamp="1622856945579">
+      <screen x="0" y="25" width="1440" height="806" />
     </state>
     <state width="1920" height="314" key="GridCell.Tab.0.bottom/1440.0.1920.1080/0.0.1440.900@1440.0.1920.1080" timestamp="1621734903726" />
-    <state width="1516" height="314" key="GridCell.Tab.0.bottom/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735666525" />
-    <state width="1516" height="314" key="GridCell.Tab.0.center" timestamp="1621735666524">
-      <screen x="1440" y="25" width="1920" height="1055" />
+    <state width="720" height="314" key="GridCell.Tab.0.bottom/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622856945579" />
+    <state width="720" height="314" key="GridCell.Tab.0.bottom/1440.25.1920.1055/0.25.1440.813@0.25.1440.813" timestamp="1621907274273" />
+    <state width="1516" height="314" key="GridCell.Tab.0.bottom/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735970050" />
+    <state width="720" height="314" key="GridCell.Tab.0.center" timestamp="1622856945578">
+      <screen x="0" y="25" width="1440" height="806" />
     </state>
     <state width="1920" height="314" key="GridCell.Tab.0.center/1440.0.1920.1080/0.0.1440.900@1440.0.1920.1080" timestamp="1621734903724" />
-    <state width="1516" height="314" key="GridCell.Tab.0.center/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735666524" />
-    <state width="1516" height="314" key="GridCell.Tab.0.left" timestamp="1621735666523">
-      <screen x="1440" y="25" width="1920" height="1055" />
+    <state width="720" height="314" key="GridCell.Tab.0.center/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622856945578" />
+    <state width="720" height="314" key="GridCell.Tab.0.center/1440.25.1920.1055/0.25.1440.813@0.25.1440.813" timestamp="1621907274272" />
+    <state width="1516" height="314" key="GridCell.Tab.0.center/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735970050" />
+    <state width="720" height="314" key="GridCell.Tab.0.left" timestamp="1622856945578">
+      <screen x="0" y="25" width="1440" height="806" />
     </state>
     <state width="1920" height="314" key="GridCell.Tab.0.left/1440.0.1920.1080/0.0.1440.900@1440.0.1920.1080" timestamp="1621734903723" />
-    <state width="1516" height="314" key="GridCell.Tab.0.left/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735666523" />
-    <state width="1516" height="314" key="GridCell.Tab.0.right" timestamp="1621735666524">
-      <screen x="1440" y="25" width="1920" height="1055" />
+    <state width="720" height="314" key="GridCell.Tab.0.left/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622856945578" />
+    <state width="720" height="314" key="GridCell.Tab.0.left/1440.25.1920.1055/0.25.1440.813@0.25.1440.813" timestamp="1621907274272" />
+    <state width="1516" height="314" key="GridCell.Tab.0.left/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735970049" />
+    <state width="720" height="314" key="GridCell.Tab.0.right" timestamp="1622856945579">
+      <screen x="0" y="25" width="1440" height="806" />
     </state>
     <state width="1920" height="314" key="GridCell.Tab.0.right/1440.0.1920.1080/0.0.1440.900@1440.0.1920.1080" timestamp="1621734903725" />
-    <state width="1516" height="314" key="GridCell.Tab.0.right/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735666524" />
+    <state width="720" height="314" key="GridCell.Tab.0.right/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622856945579" />
+    <state width="720" height="314" key="GridCell.Tab.0.right/1440.25.1920.1055/0.25.1440.813@0.25.1440.813" timestamp="1621907274273" />
+    <state width="1516" height="314" key="GridCell.Tab.0.right/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735970050" />
+    <state x="486" y="147" key="RollbackChangesDialog" timestamp="1622856936818">
+      <screen x="0" y="25" width="1440" height="806" />
+    </state>
+    <state x="486" y="147" key="RollbackChangesDialog/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622856936818" />
+    <state x="301" y="61" key="SettingsEditor" timestamp="1622855669916">
+      <screen x="0" y="25" width="1440" height="807" />
+    </state>
+    <state x="458" y="103" key="SettingsEditor/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622769610953" />
+    <state x="301" y="61" key="SettingsEditor/1440.25.1920.1055/0.25.1440.807@0.25.1440.807" timestamp="1622855669916" />
+    <state x="2122" y="161" key="SettingsEditor/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735993007" />
+    <state x="375" y="259" key="com.intellij.ide.util.TipDialog" timestamp="1622855301139">
+      <screen x="0" y="25" width="1440" height="807" />
+    </state>
+    <state x="375" y="259" key="com.intellij.ide.util.TipDialog/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622769564807" />
+    <state x="375" y="259" key="com.intellij.ide.util.TipDialog/1440.25.1920.1055/0.25.1440.807@0.25.1440.807" timestamp="1622855301139" />
+    <state x="722" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1622856898249">
+      <screen x="0" y="25" width="1440" height="806" />
+    </state>
+    <state x="722" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1440.25.1920.1055/0.25.1440.806@0.25.1440.806" timestamp="1622856898249" />
+    <state x="2402" y="446" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1440.25.1920.1055/0.25.1440.813@1440.25.1920.1055" timestamp="1621735918803" />
   </component>
 </project>
