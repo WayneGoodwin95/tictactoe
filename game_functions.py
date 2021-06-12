@@ -3,29 +3,15 @@ import pygame as pg
 import numpy as np
 
 
-def create_board(settings):
+def create_board(screen, settings, Tile, image_x, image_o):
     """ Create board"""
     board = np.empty((settings.rows, settings.cols), dtype=dict)
-    for row in range(settings.rows):
-        for col in range(settings.cols):
-            tile_xpos = int((settings.line_1_y * row))
-            tile_ypos = int(settings.line_3_x * col)
-            tile_active = True
-            tile_rect = pg.Rect(tile_xpos, tile_ypos, settings.tile_length, settings.tile_height)
-            board[row][col] = {'tile_length': settings.tile_length, 'tile_height': settings.tile_height,
-                               'tile_xpos': tile_xpos, 'tile_ypos': tile_ypos, 'tile_color': settings.tile_color,
-                               'tile_active': tile_active, 'player': 0, 'tile_rect': tile_rect, 'tile_image': ''}
+
+    for index, value in np.ndenumerate(board):
+        row, col = index[0], index[1]
+        board[row][col] = Tile(screen, row, col, image_x, image_o)
+        print(index)
     return board
-
-
-def update_board(settings, board, row, col, image_x, image_o):
-    if settings.player == 1:
-        board[row][col]['player'] = 1
-        board[row][col]['tile_image'] = image_x
-    elif settings.player == 2:
-        board[row][col]['player'] = 2
-        board[row][col]['tile_image'] = image_o
-    board[row][col]['tile_active'] = False
 
 
 def check_button_pressed(screen, settings, board, image_x, image_o, play_button):
@@ -45,11 +31,11 @@ def check_button_pressed(screen, settings, board, image_x, image_o, play_button)
 
 def check_can_play(screen, settings, board, mouse_pos, image_x, image_o):
     can_play = False
-    for row in range(settings.rows):
-        for col in range(settings.cols):
-            if board[row][col]['tile_rect'].collidepoint(mouse_pos) and board[row][col]['tile_active']:
-                update_board(settings, board, row, col, image_x, image_o)
-                can_play = True
+    for index, value in np.ndenumerate(board):
+        row, col = index[0], index[1]
+        if board[row][col].rect.collidepoint(mouse_pos) and board[row][col].active:
+            board[row][col].update_tile(settings.player)
+            can_play = True
     return can_play
 
 
@@ -80,9 +66,9 @@ def check_horizontal(settings, board):
         player1 = 0
         player2 = 0
         for col in range(settings.cols):
-            if board[row][col]['player'] == 1:
+            if board[row][col].player == 1:
                 player1 += 1
-            elif board[row][col]['player'] == 2:
+            elif board[row][col].player == 2:
                 player2 += 1
 
             if player1 == settings.rows:
@@ -98,9 +84,9 @@ def check_vertical(settings, board):
         player1 = 0
         player2 = 0
         for row in range(settings.rows):
-            if board[row][col]['player'] == 1:
+            if board[row][col].player == 1:
                 player1 += 1
-            elif board[row][col]['player'] == 2:
+            elif board[row][col].player == 2:
                 player2 += 1
 
             if player1 == settings.cols:
@@ -116,9 +102,9 @@ def check_botleft_topright(settings, board):
     player2 = 0
     row = 2
     for col in range(settings.cols):
-        if board[row][col]['player'] == 1:
+        if board[row][col].player == 1:
             player1 += 1
-        elif board[row][col]['player'] == 2:
+        elif board[row][col].player == 2:
             player2 += 1
 
         if player1 == settings.rows:
@@ -136,9 +122,9 @@ def check_topleft_botright(settings, board):
     player2 = 0
     row = 0
     for col in range(settings.cols):
-        if board[row][col]['player'] == 1:
+        if board[row][col].player == 1:
             player1 += 1
-        elif board[row][col]['player'] == 2:
+        elif board[row][col].player == 2:
             player2 += 1
 
         if player1 == settings.rows:
@@ -152,14 +138,9 @@ def check_topleft_botright(settings, board):
 
 
 def draw_board(screen, settings, board):
-    for row in range(settings.rows):
-        for col in range(settings.cols):
-            pg.draw.rect(screen, board[row][col]['tile_color'], board[row][col]['tile_rect'])
-            if not board[row][col]['tile_image'] == '':
-                image = pg.image.load(board[row][col]['tile_image'])
-                image_rect = image.get_rect()
-                image_rect.center = board[row][col]['tile_rect'].center
-                screen.blit(image, image_rect)
+    for index, tile in np.ndenumerate(board):
+        row, col = index[0], index[1]
+        tile.draw_tile()
 
 
 def draw_lines(screen, settings):
@@ -185,11 +166,11 @@ def draw_winning_line(screen, settings):
 
 
 def reset_board(screen, settings, board):
-    for row in range(settings.rows):
-        for col in range(settings.cols):
-            board[row][col]['player'] = 0
-            board[row][col]['tile_active'] = True
-            board[row][col]['tile_image'] = ''
+    for index, value in np.ndenumerate(board):
+        row, col = index[0], index[1]
+        board[row][col].player = 0
+        board[row][col].active = True
+        board[row][col].image = ''
 
 
 def reset_settings(settings):
@@ -205,17 +186,17 @@ def player_wins(settings, board, line_win, colrow):
     settings.game_over_msg = 'Player ' + str(settings.player) + '- WINS'
 
     if line_win == 'v':
-        settings.winning_line_start_xy = board[0][colrow]['tile_rect'].center
-        settings.winning_line_end_xy = board[settings.rows - 1][colrow]['tile_rect'].center
+        settings.winning_line_start_xy = board[0][colrow].rect.center
+        settings.winning_line_end_xy = board[settings.rows - 1][colrow].rect.center
     elif line_win == 'h':
-        settings.winning_line_start_xy = board[colrow][0]['tile_rect'].center
-        settings.winning_line_end_xy = board[colrow][settings.cols - 1]['tile_rect'].center
+        settings.winning_line_start_xy = board[colrow][0].rect.center
+        settings.winning_line_end_xy = board[colrow][settings.cols - 1].rect.center
     elif line_win == 'd1':
-        settings.winning_line_start_xy = board[settings.rows - 1][0]['tile_rect'].center
-        settings.winning_line_end_xy = board[0][settings.cols - 1]['tile_rect'].center
+        settings.winning_line_start_xy = board[settings.rows - 1][0].rect.center
+        settings.winning_line_end_xy = board[0][settings.cols - 1].rect.center
     elif line_win == 'd2':
-        settings.winning_line_start_xy = board[0][0]['tile_rect'].center
-        settings.winning_line_end_xy = board[settings.rows - 1][settings.cols - 1]['tile_rect'].center
+        settings.winning_line_start_xy = board[0][0].rect.center
+        settings.winning_line_end_xy = board[settings.rows - 1][settings.cols - 1].rect.center
 
 
 def change_player(settings):

@@ -19,10 +19,6 @@ class Settings():
         self.line_3_x = int(self.screen_width / 3)
         self.line_4_x = int(self.line_3_x * 2)
 
-        # tile
-        self.tile_color = (255, 255, 255)
-        self.tile_length = self.line_1_y
-        self.tile_height = self.line_3_x
 
         # game state
         self.player = 1

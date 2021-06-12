@@ -6,6 +6,7 @@ import game_functions as gf
 from settings import Settings as game_settings
 from button import Button
 from win_message import Game_over
+from tile import Tile
 
 
 def run_game():
@@ -15,17 +16,20 @@ def run_game():
     screen = pg.display.set_mode((settings.screen_width, settings.screen_height))
     pg.display.set_caption("Tic Tac Toe")
 
+    # load assets  images for markers for each player
+    image_x = 'images/X-tictactoe3.bmp'
+    image_o = 'images/O-tictactoe4.bmp'
+
     # create board
-    board = gf.create_board(settings)
+    board = gf.create_board(screen, settings, Tile, image_o, image_x)
+
+    for index, value in np.ndenumerate(board):
+        print(value.x_pos)
 
     # Draw the screen and game board
     screen.fill(settings.bg_color)
     gf.draw_board(screen, settings, board)
     gf.draw_lines(screen, settings)
-
-    # load images for markers for each player
-    image_x = 'images/X-tictactoe3.bmp'
-    image_o = 'images/O-tictactoe4.bmp'
 
     # Create play button
     play_button = Button(screen, settings, 'Play')
@@ -47,6 +51,9 @@ def run_game():
                 gf.change_player(settings)
 
         gf.update_screen(screen, settings, board, play_button, game_over_screen)
+
+        # Limit the amount of cycles
+        pg.time.wait(16)
 
 
 run_game()
