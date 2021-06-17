@@ -24,8 +24,6 @@ class Settings():
 
         self.turn_counter = 1
 
-        self.game_over_msg = ''
-
     def change_player(self):
         if self.player == 1:
             self.player = 2
@@ -56,6 +54,7 @@ class Tile(Settings):
         self.image = ''
 
     def update_tile(self, player):
+        self.active = False
         self.player = player
         if self.player == 1:
             self.image = self.image_x
@@ -110,3 +109,56 @@ class Lines(Settings):
         # first horizontal line
         pg.draw.line(self.screen, self.winning_line_color, self.winning_line_start_xy,
                      self.winning_line_end_xy, self.winning_line_width)
+
+
+class Game_over(Settings):
+    def __init__(self, screen):
+        Settings.__init__(self)
+        """Initialise button attributes."""
+        self.screen = screen
+        self.screen_rect = self.screen.get_rect()
+
+        # Set the dimensions and properties of the button.
+        self.width = self.screen_width / 10
+        self.height = self.screen_height / 10
+        self.text_color = (255, 24, 24)
+        self.bg_color = None
+        self.font = pg.font.SysFont(None, 48)
+
+        # Build the button's rect object and center it.
+        self.rect = pg.Rect(0, 0, self.width, self.height)
+        self.rect.center = self.screen_rect.center
+        self.rect.centery -= self.height
+
+        # The button message needs to be prepped only once
+        self.msg = " "
+        self.prep_msg()
+
+    def prep_msg(self):
+        """Turn msg into a rendered image and center text on the button."""
+        self.msg_image = self.font.render(self.msg, True, self.text_color, self.bg_color)
+        self.msg_image_rect = self.msg_image.get_rect()
+        self.msg_image_rect.center = self.rect.center
+
+    def draw_msg(self):
+        # Draw blank button and then draw message.
+        self.screen.blit(self.msg_image, self.msg_image_rect)
+
+
+class Button(Game_over):
+    def __init__(self, screen, msg):
+        Game_over.__init__(self, screen)
+        """Initialise button attributes."""
+        # Change background color and text color for buttons
+        self.bg_color = (0, 255, 0)
+        self.text_color = (255, 255, 255)
+        self.rect.centery += self.height
+
+        self.msg = msg
+        # The button message needs to be prepped only once
+        self.prep_msg()
+
+    def draw_button(self):
+        # Draw blank button and then draw message.
+        self.screen.fill(self.bg_color, self.rect)
+        self.screen.blit(self.msg_image, self.msg_image_rect)

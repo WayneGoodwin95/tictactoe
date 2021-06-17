@@ -19,7 +19,7 @@ def create_board(screen, settings, Tile):
     return board
 
 
-def check_button_pressed(screen, settings, board, play_button):
+def check_button_pressed(lines, game_over, settings, board, play_button):
     # Watch for keyboard and mouse events.
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -29,13 +29,13 @@ def check_button_pressed(screen, settings, board, play_button):
             mouse_pos = pg.mouse.get_pos()
             # Check if game active and if player has clicked a allowable tle or button
             if settings.game_active:
-                can_play = check_can_play(screen, settings, board, mouse_pos)
+                can_play = check_can_play(settings, board, mouse_pos)
             elif not settings.game_active:
-                check_play_button(screen, settings, board, mouse_pos, play_button)
+                check_play_button(lines, game_over, settings, board, mouse_pos, play_button)
             return can_play
 
 
-def check_can_play(screen, settings, board, mouse_pos):
+def check_can_play(settings, board, mouse_pos):
     can_play = False
     # enumerate through list
     for index, value in np.ndenumerate(board):
@@ -49,29 +49,28 @@ def check_can_play(screen, settings, board, mouse_pos):
 
 
 # Check if player has clicked button to restart the game
-def check_play_button(screen, settings, board, mouse_pos, play_button):
+def check_play_button(lines, game_over, settings, board, mouse_pos, play_button):
     if play_button.rect.collidepoint(mouse_pos):
-        reset_board(screen, settings, board)
-        reset_settings(settings)
+        reset_board(board)
+        reset_settings(lines, game_over, settings)
 
 
-def check_game_over(settings, board, game_over_screen):
+def check_game_over(settings, board, game_over):
     if settings.turn_counter >= 9 and settings.game_active:
         # end game after al tiles are clicked
         settings.game_active = False
-        settings.game_over_msg = 'Draw'
+        game_over.msg = 'Draw'
 
 
-def check_win_conditions(settings, lines, board):
+def check_win_conditions(settings, lines, board, game_over):
     if settings.turn_counter >= 4:
-        check_horizontal(settings, lines, board)
-        check_vertical(settings, lines, board)
-        check_botleft_topright(settings, lines, board)
-        check_topleft_botright(settings, lines, board)
-        print(settings.game_over_msg)
+        check_horizontal(settings, lines, board, game_over)
+        check_vertical(settings, lines, board, game_over)
+        check_botleft_topright(settings, lines, board, game_over)
+        check_topleft_botright(settings, lines, board, game_over)
 
 
-def check_horizontal(settings, lines, board):
+def check_horizontal(settings, lines, board, game_over):
     for row in range(settings.rows):
         player1 = 0
         player2 = 0
@@ -83,13 +82,13 @@ def check_horizontal(settings, lines, board):
 
             if player1 == settings.rows:
                 line_win = 'h'
-                player_wins(settings, lines, board, line_win, row)
+                player_wins(settings, lines, board, line_win, game_over, row)
             if player2 == settings.rows:
                 line_win = 'h'
-                player_wins(settings, lines, board, line_win, row)
+                player_wins(settings, lines, board, line_win, game_over, row)
 
 
-def check_vertical(settings, lines, board):
+def check_vertical(settings, lines, board, game_over):
     for col in range(settings.cols):
         player1 = 0
         player2 = 0
@@ -101,13 +100,13 @@ def check_vertical(settings, lines, board):
 
             if player1 == settings.cols:
                 line_win = 'v'
-                player_wins(settings, lines, board, line_win, col)
+                player_wins(settings, lines, board, line_win, game_over, col)
             if player2 == settings.cols:
                 line_win = 'v'
-                player_wins(settings, lines, board, line_win, col)
+                player_wins(settings, lines, board, line_win, game_over, col)
 
 
-def check_botleft_topright(settings, lines, board):
+def check_botleft_topright(settings, lines, board, game_over):
     player1 = 0
     player2 = 0
     row = 2
@@ -119,15 +118,15 @@ def check_botleft_topright(settings, lines, board):
 
         if player1 == settings.rows:
             line_win = 'd1'
-            player_wins(settings, lines, board, line_win, colrow=0)
+            player_wins(settings, lines, board, line_win, game_over, colrow=0)
         if player2 == settings.rows:
             line_win = 'd1'
-            player_wins(settings, lines, board, line_win, colrow=0)
+            player_wins(settings, lines, board, line_win, game_over, colrow=0,)
 
         row -= 1
 
 
-def check_topleft_botright(settings, lines, board):
+def check_topleft_botright(settings, lines, board, game_over):
     player1 = 0
     player2 = 0
     row = 0
@@ -139,10 +138,10 @@ def check_topleft_botright(settings, lines, board):
 
         if player1 == settings.rows:
             line_win = 'd2'
-            player_wins(settings, lines, board, line_win, colrow=0)
+            player_wins(settings, lines, board, line_win, game_over, colrow=0)
         if player2 == settings.rows:
             line_win = 'd2'
-            player_wins(settings, lines, board, line_win, colrow=0)
+            player_wins(settings, lines, board, line_win, game_over, colrow=0)
 
         row += 1
 
@@ -153,7 +152,7 @@ def draw_board(board):
         tile.draw_tile()
 
 
-def reset_board(screen, settings, board):
+def reset_board(board):
     for index, value in np.ndenumerate(board):
         row, col = index[0], index[1]
         board[row][col].player = 0
@@ -161,17 +160,17 @@ def reset_board(screen, settings, board):
         board[row][col].image = ''
 
 
-def reset_settings(settings):
+def reset_settings(lines, game_over, settings):
     settings.game_active = True
     settings.turn_counter = 1
-    settings.game_over_msg = ''
-    settings.winning_line_start_xy = ()
-    settings.winning_line_end_xy = ()
+    game_over.msg = ''
+    lines.winning_line_start_xy = ()
+    lines.winning_line_end_xy = ()
 
 
-def player_wins(settings, lines, board, line_win, colrow):
+def player_wins(settings, lines, board, line_win, game_over, colrow):
     settings.game_active = False
-    settings.game_over_msg = 'Player ' + str(settings.player) + '- WINS'
+    game_over.msg = 'Player ' + str(settings.player) + '- WINS'
 
     if line_win == 'v':
         lines.winning_line_start_xy = board[0][colrow].rect.center
@@ -187,14 +186,13 @@ def player_wins(settings, lines, board, line_win, colrow):
         lines.winning_line_end_xy = board[settings.rows - 1][settings.cols - 1].rect.center
 
 
-def update_screen(screen, settings, lines, board, play_button, game_over_screen):
+def update_screen(settings, lines, board, play_button, game_over):
     draw_board(board)
     lines.draw_lines()
     if not settings.game_active:
-        if settings.game_over_msg == 'Player 1- WINS' or settings.game_over_msg == 'Player 2- WINS':
+        if game_over.msg == 'Player 1- WINS' or game_over.msg == 'Player 2- WINS':
             lines.draw_winning_line()
-        game_over_screen.msg = settings.game_over_msg
-        game_over_screen.prep_msg()
-        game_over_screen.draw_game_over_screen()
+        game_over.prep_msg()
+        game_over.draw_msg()
         play_button.draw_button()
     pg.display.update()
